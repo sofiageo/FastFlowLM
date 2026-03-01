@@ -159,9 +159,8 @@ void ensure_models_directory(const std::string& exe_dir) {
 void handle_user_input(bool sub_process_mode) {
     std::string input;
     while (!should_exit) {
-        if (!sub_process_mode){
-            header_print("FLM", "Enter 'exit' or use 'Ctrl+C' to stop the server: ");
-        }
+        header_print("FLM", "Enter 'exit' or use 'Ctrl+C' to stop the server: ");
+
         std::getline(std::cin, input);
         if (input == "exit") {
             should_exit = true;
@@ -613,8 +612,18 @@ int main(int argc, char* argv[]) {
             header_print("FLM", "Starting server on port " << port << "...");
             server->start();
 
-            // Start a thread to handle user input, this thread will be used to handle the user input
-            std::thread input_thread(handle_user_input, parsed_args.sub_process_mode);
+            if (parsed_args.sub_process_mode) {
+                while (!terminateFlag.load())
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            } else {
+                // Start a thread to handle user input, this thread will be used to handle the user input
+                std::thread input_thread(handle_user_input);
+                // Wait for exit command, this thread will be used to wait for the user to exit the server
+                while (!should_exit) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                }
+                input_thread.join();
+            }
 
             // Wait for exit signal without polling to reduce CPU usage
             {
@@ -625,7 +634,6 @@ int main(int argc, char* argv[]) {
             // Cleanup, this will be used to stop the server
             header_print("FLM", "Stopping server...");
             server->stop();
-            input_thread.join();
         }
         else if (parsed_args.command == "pull") {
             // Check if the model is already downloaded, if true, the model will not be downloaded
