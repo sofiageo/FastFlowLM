@@ -142,6 +142,8 @@ static bool has_valid_jpeg_structure(const uint8_t* data, size_t size) {
 static bool has_basic_image_integrity(const uint8_t* data, size_t size, int codec_id) {
 
     header_print("FLM", "Codec: " + std::to_string(codec_id));
+    header_print("FLM", "Size: " + std::to_string(size));
+    header_print("FLM", "isData: " + std::to_string(!data));
     std::cout << "codec" << codec_id << std::endl;
 
     if (!data || size == 0) {
