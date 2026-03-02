@@ -140,12 +140,13 @@ static bool has_valid_jpeg_structure(const uint8_t* data, size_t size) {
 }
 
 static bool has_basic_image_integrity(const uint8_t* data, size_t size, int codec_id) {
+
+    header_print("FLM", "Codec: " + std::to_string(codec_id));
+    std::cout << "codec" << codec_id << std::endl;
+
     if (!data || size == 0) {
         return false;
     }
-
-    header_print("FLM", "Codec: " + codec_id);
-    // std::cout << "codec" << codec_id << std::endl;
     if (codec_id == AV_CODEC_ID_PNG) {
         return has_valid_png_structure(data, size);
     }
