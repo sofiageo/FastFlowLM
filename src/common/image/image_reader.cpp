@@ -83,9 +83,13 @@ static bool has_valid_png_structure(const uint8_t* data, size_t size) {
 }
 
 static bool has_valid_jpeg_structure(const uint8_t* data, size_t size) {
+    header_print("FLM", "Size: " + std::to_string(size));
+
     if (!data || size < 4) {
         return false;
     }
+
+    header_print("FLM", "data0: " + std::to_string(!data[0]));
 
     if (!(data[0] == 0xFF && data[1] == 0xD8)) {
         return false;
@@ -94,6 +98,9 @@ static bool has_valid_jpeg_structure(const uint8_t* data, size_t size) {
     if (!(data[size - 2] == 0xFF && data[size - 1] == 0xD9)) {
         return false;
     }
+
+    header_print("FLM", "data-2: " + std::to_string(!data[size - 2]));
+    header_print("FLM", "data-1: " + std::to_string(!data[size - 1]));
 
     bool saw_sos = false;
     size_t pos = 2;
@@ -107,6 +114,7 @@ static bool has_valid_jpeg_structure(const uint8_t* data, size_t size) {
             ++pos;
         }
         if (pos >= size) {
+            header_print("FLM", "pos >= size" + std::to_string(pos));
             return false;
         }
 
@@ -130,22 +138,18 @@ static bool has_valid_jpeg_structure(const uint8_t* data, size_t size) {
 
         const uint16_t seg_len = static_cast<uint16_t>((data[pos] << 8) | data[pos + 1]);
         if (seg_len < 2) {
+            header_print("FLM", "seg_len <2" + std::to_string(seg_len));
             return false;
         }
 
         pos += static_cast<size_t>(seg_len);
     }
 
+    header_print("FLM", "return false");
     return false;
 }
 
 static bool has_basic_image_integrity(const uint8_t* data, size_t size, int codec_id) {
-
-    header_print("FLM", "Codec: " + std::to_string(codec_id));
-    header_print("FLM", "Size: " + std::to_string(size));
-    header_print("FLM", "isData: " + std::to_string(!data));
-    std::cout << "codec" << codec_id << std::endl;
-
     if (!data || size == 0) {
         return false;
     }
