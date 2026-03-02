@@ -89,18 +89,17 @@ static bool has_valid_jpeg_structure(const uint8_t* data, size_t size) {
         return false;
     }
 
-    header_print("FLM", "data0: " + std::to_string(!data[0]));
-
     if (!(data[0] == 0xFF && data[1] == 0xD8)) {
+        header_print("FLM", "data0: " + std::to_string(data[0]));
+        header_print("FLM", "data1: " + std::to_string(data[1]));
         return false;
     }
 
     if (!(data[size - 2] == 0xFF && data[size - 1] == 0xD9)) {
+        header_print("FLM", "data-1: " + std::to_string(data[size - 1]));
+        header_print("FLM", "data-2: " + std::to_string(data[size - 2]));
         return false;
     }
-
-    header_print("FLM", "data-2: " + std::to_string(!data[size - 2]));
-    header_print("FLM", "data-1: " + std::to_string(!data[size - 1]));
 
     bool saw_sos = false;
     size_t pos = 2;
