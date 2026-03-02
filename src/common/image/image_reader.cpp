@@ -144,7 +144,8 @@ static bool has_basic_image_integrity(const uint8_t* data, size_t size, int code
         return false;
     }
 
-    std::cout << "codec" << codec_id << std::endl;
+    header_print("FLM", "Codec: " + codec_id);
+    // std::cout << "codec" << codec_id << std::endl;
     if (codec_id == AV_CODEC_ID_PNG) {
         return has_valid_png_structure(data, size);
     }
