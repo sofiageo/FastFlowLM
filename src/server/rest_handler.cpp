@@ -844,7 +844,9 @@ void RestHandler::handle_openai_chat_completion(const json& request,
         std::string model = request.value("model", current_model_tag);
         std::string reasoning_effort = request.value("reasoning_effort", "medium");
         bool stream = request.value("stream", false);
-        int length_limit = request.value("max_tokens", 4096);
+        // max_tokens (preferred) or max_completion_tokens for OpenAI compatibility
+        int length_limit = request.value("max_tokens",
+                                         request.value("max_completion_tokens", 4096));
         json tools = request.value("tools", json::array());
         json options = request.value("options", json::object());
 
