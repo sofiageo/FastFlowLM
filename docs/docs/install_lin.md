@@ -5,7 +5,7 @@ nav_order: 2
 has_children: false
 ---
 
-**Linux NPU Support**
+# Linux NPU Support
 
 This article will teach you how to run LLMs on your **AMD XDNA 2 NPU** on Linux using **FastFlowLM**.  
 Get set up and then show us what you build!
@@ -65,6 +65,7 @@ The quickstart guide below will help you install these requirements.
 ## Supported Distributions
 - Ubuntu 24.04 LTS
 - Ubuntu 25.10
+- Ubuntu 26.04
 - Arch Linux
 - Other (Generic Linux)
 
@@ -79,7 +80,6 @@ The quickstart guide below will help you install these requirements.
 ---
 
 ## 2. System Preparation
-
 
 ### Ubuntu (24.04, 25.10)
 
@@ -119,6 +119,12 @@ sudo apt install ./fastflowlm*.deb
    *    hard    memlock    unlimited
    ```
 - Reboot system
+
+---
+
+### Ubuntu 26.04, Arch, and Others
+
+Check this https://lemonade-server.ai/flm_npu_linux.html
 
 ---
 
