@@ -17,6 +17,22 @@ FLM CLI mode offers a terminal-based interactive experience, similar to Ollama, 
 
 ## 🔧 Pre-Run PowerShell Commands (System)
 
+### 🖥️ System Compatibility Check
+
+Verify that your hardware meets the necessary requirements to run FastFlowLM:
+
+```shell
+flm validate
+```
+
+Output the validation results as a JSON object:
+
+```shell
+flm validate --json
+```
+
+---
+
 ### 🆘 Show Help
 
 ```shell
@@ -62,6 +78,13 @@ Display all available models and locally downloaded models:
 ```shell
 flm list
 ```
+
+Output as JSON:
+
+```shell
+flm list --json
+```
+
 
 Filters flag:
 
