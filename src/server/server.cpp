@@ -925,6 +925,16 @@ std::unique_ptr<WebServer> create_lm_server(model_list& models, ModelDownloader&
         });
     
     // Add OpenAI endpoints
+    server->register_handler("GET", "/v1/version",
+        [rest_handler](const http::request<http::string_body>& req,
+            std::function<void(const json&)> send_response,
+            std::function<void(const json&, bool)> send_streaming_response,
+            std::shared_ptr<HttpSession> session,
+            std::shared_ptr<CancellationToken> cancellation_token) {
+                json request_json;
+                rest_handler->handle_version(request_json, send_response, send_streaming_response);
+        });
+
     server->register_handler("GET", "/v1/models",
         [rest_handler](const http::request<http::string_body>& req,
             std::function<void(const json&)> send_response,

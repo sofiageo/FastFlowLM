@@ -687,6 +687,19 @@ void RestHandler::handle_models(const json& request,
     }
 }
 
+///@brief Handle the version request
+///@param request the request
+///@param send_response the send response
+///@param send_streaming_response the send streaming response
+void RestHandler::handle_version(const json& request,
+                                std::function<void(const json&)> send_response,
+                                StreamResponseCallback send_streaming_response) {
+    std::string version = __FLM_VERSION__;
+    
+    json response = {{"version", version}};
+    send_response(response);
+}
+
 ///@brief Handle the models request (open ai)
 ///@param request the request
 ///@param send_response the send response
@@ -761,17 +774,6 @@ void RestHandler::handle_ps(const json& request,
         json error_response = {{"error", e.what()}};
         send_response(error_response);
     }
-}
-
-///@brief Handle the version request
-///@param request the request
-///@param send_response the send response
-///@param send_streaming_response the send streaming response
-void RestHandler::handle_version(const json& request,
-                                std::function<void(const json&)> send_response,
-                                StreamResponseCallback send_streaming_response) {
-    json response = {{"version", "1.0.0"}};
-    send_response(response);
 }
 
 ///@brief Handle the pull request
